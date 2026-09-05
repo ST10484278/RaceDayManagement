@@ -106,3 +106,23 @@ CREATE TABLE dbo.ENROLLMENT (
     CONSTRAINT UQ_ENROLLMENT_Participant_Category UNIQUE (participantID, eventCategoryID)
 );
 GO
+-- Create Result table to track participant performance
+USE RaceDay;
+GO
+
+IF OBJECT_ID('dbo.RESULT', 'U') IS NOT NULL DROP TABLE dbo.RESULT;
+GO
+
+CREATE TABLE dbo.RESULT (
+    resultID INT IDENTITY(1,1) NOT NULL,
+    enrollmentID INT NOT NULL,
+    finishTime TIME(0) NULL,
+    pace VARCHAR(20) NULL,
+    position INT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'Finished',
+    
+    CONSTRAINT PK_RESULT PRIMARY KEY (resultID),
+    CONSTRAINT FK_RESULT_ENROLLMENT FOREIGN KEY (enrollmentID) REFERENCES dbo.ENROLLMENT(enrollmentID) ON DELETE CASCADE,
+    CONSTRAINT UQ_RESULT_enrollmentID UNIQUE (enrollmentID)
+);
+GO
