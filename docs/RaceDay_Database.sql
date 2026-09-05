@@ -147,3 +147,36 @@ BEGIN
     (2, 'sarah.smith@outlook.com', 'ParticipantPwd3!', 'Sarah', 'Smith');
 END;
 GO
+
+-- Seed events, categories, and event categories
+USE RaceDay;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM dbo.EVENT WHERE eventName = 'Soweto Marathon 2026')
+BEGIN
+    INSERT INTO dbo.EVENT (organiserID, eventName, title, description, eventDate) 
+    VALUES 
+    (1, 'Soweto Marathon 2026', 'The People''s Race', 'Annual road marathon through historical Soweto landmarks.', '2026-11-01 06:00:00'),
+    (2, 'Cape Town Cycle Tour 2026', 'Rotary Cycle Challenge', 'Scenic coastal cycling event around the Cape Peninsula.', '2026-03-08 06:30:00');
+END;
+
+IF NOT EXISTS (SELECT 1 FROM dbo.CATEGORY WHERE categoryName = 'Full Marathon')
+BEGIN
+    INSERT INTO dbo.CATEGORY (categoryName, description) 
+    VALUES 
+    ('Full Marathon', '42.2km long-distance road running race'),
+    ('Half Marathon', '21.1km road race'),
+    ('10km Road Race', '10km road running and walking event'),
+    ('109km Road Cycle', 'Full perimeter cycling route');
+END;
+
+IF NOT EXISTS (SELECT 1 FROM dbo.EVENT_CATEGORY WHERE eventID = 1 AND categoryID = 1)
+BEGIN
+    INSERT INTO dbo.EVENT_CATEGORY (eventID, categoryID, startLocation, entryFee, distance) 
+    VALUES 
+    (1, 1, 'Nasrec Expo Centre, Johannesburg', 350.00, '42.2 km'),
+    (1, 2, 'Nasrec Expo Centre, Johannesburg', 250.00, '21.1 km'),
+    (1, 3, 'Nasrec Expo Centre, Johannesburg', 150.00, '10.0 km'),
+    (2, 4, 'Grand Parade, Cape Town', 550.00, '109.0 km');
+END;
+GO
