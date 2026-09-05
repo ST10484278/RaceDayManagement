@@ -180,3 +180,28 @@ BEGIN
     (2, 4, 'Grand Parade, Cape Town', 550.00, '109.0 km');
 END;
 GO
+
+-- Seed enrollments and results data
+USE RaceDay;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM dbo.ENROLLMENT WHERE participantID = 3 AND eventCategoryID = 1)
+BEGIN
+    INSERT INTO dbo.ENROLLMENT (participantID, eventCategoryID, enrollmentStatus, raceNumber) 
+    VALUES 
+    (3, 1, 'Confirmed', 1001),
+    (4, 2, 'Confirmed', 2045),
+    (5, 3, 'Confirmed', 3088),
+    (3, 4, 'Confirmed', 5120);
+END;
+
+IF NOT EXISTS (SELECT 1 FROM dbo.RESULT WHERE enrollmentID = 1)
+BEGIN
+    INSERT INTO dbo.RESULT (enrollmentID, finishTime, pace, position, status) 
+    VALUES 
+    (1, '03:45:12', '05:20 min/km', 142, 'Finished'),
+    (2, '01:52:30', '05:20 min/km', 89, 'Finished'),
+    (3, '00:55:10', '05:31 min/km', 45, 'Finished'),
+    (4, NULL, NULL, NULL, 'DNS');
+END;
+GO
