@@ -126,3 +126,24 @@ CREATE TABLE dbo.RESULT (
     CONSTRAINT UQ_RESULT_enrollmentID UNIQUE (enrollmentID)
 );
 GO
+-- Seed initial roles and users
+USE RaceDay;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM dbo.ROLE WHERE roleName = 'Organiser')
+    INSERT INTO dbo.ROLE (roleName) VALUES ('Organiser');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.ROLE WHERE roleName = 'Participant')
+    INSERT INTO dbo.ROLE (roleName) VALUES ('Participant');
+
+IF NOT EXISTS (SELECT 1 FROM dbo.[USER] WHERE email = 'organiser.soweto@raceday.co.za')
+BEGIN
+    INSERT INTO dbo.[USER] (roleID, email, password, firstName, lastName) 
+    VALUES 
+    (1, 'organiser.soweto@raceday.co.za', 'HashedPwd123!', 'Sipho', 'Ndlovu'),
+    (1, 'organiser.capetown@raceday.co.za', 'HashedPwd456!', 'Anika', 'Van Der Merwe'),
+    (2, 'john.doe@gmail.com', 'ParticipantPwd1!', 'John', 'Doe'),
+    (2, 'thabo.mokoena@yahoo.com', 'ParticipantPwd2!', 'Thabo', 'Mokoena'),
+    (2, 'sarah.smith@outlook.com', 'ParticipantPwd3!', 'Sarah', 'Smith');
+END;
+GO
