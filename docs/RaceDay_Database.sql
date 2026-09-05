@@ -1,0 +1,32 @@
+-- Create Database, Role, and User tables for authentication and RBAC
+IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'RaceDay')
+BEGIN
+    CREATE DATABASE RaceDay;
+END;
+GO
+
+USE RaceDay;
+GO
+
+CREATE TABLE dbo.ROLE (
+    roleID INT IDENTITY(1,1) NOT NULL,
+    roleName VARCHAR(50) NOT NULL,
+    
+    CONSTRAINT PK_ROLE PRIMARY KEY (roleID),
+    CONSTRAINT UQ_ROLE_roleName UNIQUE (roleName)
+);
+
+CREATE TABLE dbo.[USER] (
+    userID INT IDENTITY(1,1) NOT NULL,
+    roleID INT NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    firstName VARCHAR(100) NOT NULL,
+    lastName VARCHAR(100) NOT NULL,
+    createdAt DATETIME2 NOT NULL DEFAULT GETDATE(),
+    
+    CONSTRAINT PK_USER PRIMARY KEY (userID),
+    CONSTRAINT FK_USER_ROLE FOREIGN KEY (roleID) REFERENCES dbo.ROLE(roleID) ON DELETE CASCADE,
+    CONSTRAINT UQ_USER_email UNIQUE (email)
+);
+GO
