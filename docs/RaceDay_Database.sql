@@ -1,4 +1,4 @@
--- Create Database, Role, and User tables for authentication and RBAC
+-- Database creation and authentication tables (ROLE and USER)
 IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'RaceDay')
 BEGIN
     CREATE DATABASE RaceDay;
@@ -6,6 +6,11 @@ END;
 GO
 
 USE RaceDay;
+GO
+
+-- Safe drop in reverse dependency order
+IF OBJECT_ID('dbo.[USER]', 'U') IS NOT NULL DROP TABLE dbo.[USER];
+IF OBJECT_ID('dbo.ROLE', 'U') IS NOT NULL DROP TABLE dbo.ROLE;
 GO
 
 CREATE TABLE dbo.ROLE (
@@ -28,5 +33,50 @@ CREATE TABLE dbo.[USER] (
     CONSTRAINT PK_USER PRIMARY KEY (userID),
     CONSTRAINT FK_USER_ROLE FOREIGN KEY (roleID) REFERENCES dbo.ROLE(roleID) ON DELETE CASCADE,
     CONSTRAINT UQ_USER_email UNIQUE (email)
+);
+GO
+-- Create Event, Category, and Event_Category tables
+USE RaceDay;
+GO
+
+-- Safe drop of dependent event tables
+IF OBJECT_ID('dbo.EVENT_CATEGORY', 'U') IS NOT NULL DROP TABLE dbo.EVENT_CATEGORY;
+IF OBJECT_ID('dbo.CATEGORY', 'U') IS NOT NULL DROP TABLE dbo.CATEGORY;
+IF OBJECT_ID('dbo.EVENT', 'U') IS NOT NULL DROP TABLE dbo.EVENT;
+GO
+
+CREATE TABLE dbo.EVENT (
+    eventID INT IDENTITY(1,1) NOT NULL,
+    organiserID INT NOT NULL,
+    eventName VARCHAR(150) NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    description VARCHAR(MAX) NULL,
+    eventDate DATETIME2 NOT NULL,
+    createdAt DATETIME2 NOT NULL DEFAULT GETDATE(),
+    
+    CONSTRAINT PK_EVENT PRIMARY KEY (eventID),
+    CONSTRAINT FK_EVENT_USER FOREIGN KEY (organiserID) REFERENCES dbo.[USER](userID)
+);
+
+CREATE TABLE dbo.CATEGORY (
+    categoryID INT IDENTITY(1,1) NOT NULL,
+    categoryName VARCHAR(100) NOT NULL,
+    description VARCHAR(255) NULL,
+    
+    CONSTRAINT PK_CATEGORY PRIMARY KEY (categoryID),
+    CONSTRAINT UQ_CATEGORY_categoryName UNIQUE (categoryName)
+);
+
+CREATE TABLE dbo.EVENT_CATEGORY (
+    eventCategoryID INT IDENTITY(1,1) NOT NULL,
+    categoryID INT NOT NULL,
+    eventID INT NOT NULL,
+    startLocation VARCHAR(255) NOT NULL,
+    entryFee DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    distance VARCHAR(50) NOT NULL,
+    
+    CONSTRAINT PK_EVENT_CATEGORY PRIMARY KEY (eventCategoryID),
+    CONSTRAINT FK_EVENT_CATEGORY_CATEGORY FOREIGN KEY (categoryID) REFERENCES dbo.CATEGORY(categoryID),
+    CONSTRAINT FK_EVENT_CATEGORY_EVENT FOREIGN KEY (eventID) REFERENCES dbo.EVENT(eventID) ON DELETE CASCADE
 );
 GO
