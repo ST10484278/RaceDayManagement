@@ -7,8 +7,13 @@ GO
 
 USE RaceDay;
 GO
+-- 1. Drop foreign key dependencies from child tables if they exist
+IF OBJECT_ID('dbo.RESULT', 'U') IS NOT NULL DROP TABLE dbo.RESULT;
+IF OBJECT_ID('dbo.ENROLLMENT', 'U') IS NOT NULL DROP TABLE dbo.ENROLLMENT;
+IF OBJECT_ID('dbo.EVENT_CATEGORY', 'U') IS NOT NULL DROP TABLE dbo.EVENT_CATEGORY;
+IF OBJECT_ID('dbo.EVENT', 'U') IS NOT NULL DROP TABLE dbo.EVENT;
 
--- Safe drop in reverse dependency order
+-- 2. Drop parent tables in reverse dependency order
 IF OBJECT_ID('dbo.[USER]', 'U') IS NOT NULL DROP TABLE dbo.[USER];
 IF OBJECT_ID('dbo.ROLE', 'U') IS NOT NULL DROP TABLE dbo.ROLE;
 GO
@@ -78,5 +83,26 @@ CREATE TABLE dbo.EVENT_CATEGORY (
     CONSTRAINT PK_EVENT_CATEGORY PRIMARY KEY (eventCategoryID),
     CONSTRAINT FK_EVENT_CATEGORY_CATEGORY FOREIGN KEY (categoryID) REFERENCES dbo.CATEGORY(categoryID),
     CONSTRAINT FK_EVENT_CATEGORY_EVENT FOREIGN KEY (eventID) REFERENCES dbo.EVENT(eventID) ON DELETE CASCADE
+);
+GO
+-- Create Enrollment table linking participants to event categories
+USE RaceDay;
+GO
+
+IF OBJECT_ID('dbo.ENROLLMENT', 'U') IS NOT NULL DROP TABLE dbo.ENROLLMENT;
+GO
+
+CREATE TABLE dbo.ENROLLMENT (
+    enrollmentID INT IDENTITY(1,1) NOT NULL,
+    participantID INT NOT NULL,
+    eventCategoryID INT NOT NULL,
+    enrollmentDate DATETIME2 NOT NULL DEFAULT GETDATE(),
+    enrollmentStatus VARCHAR(50) NOT NULL DEFAULT 'Confirmed',
+    raceNumber INT NULL,
+    
+    CONSTRAINT PK_ENROLLMENT PRIMARY KEY (enrollmentID),
+    CONSTRAINT FK_ENROLLMENT_USER FOREIGN KEY (participantID) REFERENCES dbo.[USER](userID),
+    CONSTRAINT FK_ENROLLMENT_EVENT_CATEGORY FOREIGN KEY (eventCategoryID) REFERENCES dbo.EVENT_CATEGORY(eventCategoryID),
+    CONSTRAINT UQ_ENROLLMENT_Participant_Category UNIQUE (participantID, eventCategoryID)
 );
 GO
