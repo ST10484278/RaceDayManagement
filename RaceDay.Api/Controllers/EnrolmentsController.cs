@@ -17,7 +17,7 @@ public class EnrolmentsController : ControllerBase
         _context = context;
     }
 
-    // POST /api/enrolments - Participant ONLY
+    // POST /api/enrolments - Participant joins an event category
     [HttpPost]
     public async Task<ActionResult<EnrolmentDto>> CreateEnrolment(
         [FromBody] CreateEnrolmentRequest request,
@@ -30,13 +30,24 @@ public class EnrolmentsController : ControllerBase
         }
 
         var category = await _context.Categories.FindAsync(request.CategoryId);
-        if (category == null) return BadRequest("Invalid category ID.");
+        if (category == null)
+        {
+            return BadRequest("Invalid category ID.");
+        }
+
+        var existingEnrolment = await _context.Enrolments
+            .AnyAsync(e => e.ParticipantID == userId && e.EventCategoryID == request.CategoryId);
+
+        if (existingEnrolment)
+        {
+            return BadRequest("You are already enrolled in this event category.");
+        }
 
         var enrolment = new Enrolment
         {
             ParticipantID = userId,
             EventCategoryID = request.CategoryId,
-            EnrollmentStatus = "Registered",
+            EnrollmentStatus = "Confirmed",
             EnrollmentDate = DateTime.UtcNow
         };
 
@@ -52,6 +63,31 @@ public class EnrolmentsController : ControllerBase
         );
 
         return CreatedAtAction(nameof(GetEnrolment), new { id = enrolment.EnrollmentID }, dto);
+    }
+
+    // GET /api/enrolments/mine - Participant views their enrolments
+    [HttpGet("mine")]
+    public async Task<ActionResult<IEnumerable<EnrolmentDto>>> GetMyEnrolments(
+        [FromHeader(Name = "X-User-Role")] string userRole,
+        [FromHeader(Name = "X-User-Id")] int userId)
+    {
+        if (!string.Equals(userRole, "Participant", StringComparison.OrdinalIgnoreCase))
+        {
+            return StatusCode(StatusCodes.Status403Forbidden, "Access Denied: Only Participants can view their enrolments.");
+        }
+
+        var enrolments = await _context.Enrolments
+            .Where(e => e.ParticipantID == userId)
+            .Select(e => new EnrolmentDto(
+                e.EnrollmentID,
+                e.ParticipantID.ToString(),
+                e.EventCategoryID,
+                e.EnrollmentStatus,
+                e.EnrollmentDate
+            ))
+            .ToListAsync();
+
+        return Ok(enrolments);
     }
 
     // GET /api/enrolments/{id}
