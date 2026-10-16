@@ -20,20 +20,20 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request)
     {
-        // 1. Validate required fields
+        // 1. Receive personal details and basic validation
         if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
         {
             return BadRequest("Email and password are required.");
         }
 
-        // 2. Prevent duplicate accounts
+        // 2. Check whether the email address already exists
         var existingUser = await _context.Users.AnyAsync(u => u.Email == request.Email);
         if (existingUser)
         {
-            return BadRequest("A user with this email already exists.");
+            return BadRequest("A user with this email address already exists.");
         }
 
-        // 3. Resolve or create requested Role entity
+        // 3. Confirm the selected role is valid / resolve entity
         var requestedRoleName = string.IsNullOrWhiteSpace(request.Role) ? "Participant" : request.Role;
         var role = await _context.Roles.FirstOrDefaultAsync(r => r.RoleName == requestedRoleName);
         if (role == null)
@@ -43,10 +43,10 @@ public class AuthController : ControllerBase
             await _context.SaveChangesAsync();
         }
 
-        // 4. Hash password with BCrypt (never save plain text passwords)
+        // 4. Hash the password using BCrypt (never store plain text)
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
-        // 5. Store user in SQL Server
+        // 5. Save the user to SQL Server
         var user = new AppUser
         {
             FirstName = request.FirstName,
@@ -59,8 +59,9 @@ public class AuthController : ControllerBase
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
+        // 6. Return appropriate success response with session payload
         var response = new AuthResponse(
-            Token: "dummy-jwt-token",
+            Token: $"session-token-user-{user.UserID}",
             UserId: user.UserID.ToString(),
             Email: user.Email,
             FirstName: user.FirstName,
@@ -74,7 +75,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<AuthResponse>> Login([FromBody] LoginRequest request)
     {
-        // 1. Locate user by email including their Role
+        // 1. Find the user using the supplied email
         var user = await _context.Users
             .Include(u => u.Role)
             .FirstOrDefaultAsync(u => u.Email == request.Email);
@@ -84,24 +85,24 @@ public class AuthController : ControllerBase
             return Unauthorized("Invalid email or password.");
         }
 
-        // 2. Validate BCrypt password hash
+        // 2. Verify the supplied password against the stored hash
         bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
         if (!isPasswordValid)
         {
             return Unauthorized("Invalid email or password.");
         }
 
-        // 3. Extract RoleName (e.g., "Participant" or "Organiser")
+        // 3. Create session with stored UserId and Role identity
         string userRole = user.Role?.RoleName ?? "Participant";
 
-        // 4. Generate response carrying session identity (UserId & Role)
+        // 4. Return useful authenticated-user information
         var response = new AuthResponse(
-            Token: $"session-token-user-{user.UserID}", // Token or session identifier
-            UserId: user.UserID.ToString(),             // e.g., "5"
+            Token: $"session-token-user-{user.UserID}",
+            UserId: user.UserID.ToString(),
             Email: user.Email,
             FirstName: user.FirstName,
             LastName: user.LastName,
-            Role: userRole                              // e.g., "Participant"
+            Role: userRole
         );
 
         return Ok(response);
@@ -110,6 +111,7 @@ public class AuthController : ControllerBase
     [HttpPost("logout")]
     public IActionResult Logout()
     {
-        return Ok(new { Message = "Logout successful" });
+        // Clear session on client-side state
+        return Ok(new { Message = "Logout successful. Session cleared." });
     }
 }
