@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "SpJ56NxKaHI=",
+  "dgSpecHash": "CDYoghVcMHM=",
   "success": true,
   "projectFilePath": "C:\\Users\\Tmanv\\OneDrive\\Desktop\\Assignments\\RaceDayManagement\\RaceDay.Api\\RaceDay.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tmanv\\.nuget\\packages\\azure.core\\1.50.0\\azure.core.1.50.0.nupkg.sha512",
     "C:\\Users\\Tmanv\\.nuget\\packages\\azure.identity\\1.17.1\\azure.identity.1.17.1.nupkg.sha512",
+    "C:\\Users\\Tmanv\\.nuget\\packages\\bcrypt.net-next\\4.2.0\\bcrypt.net-next.4.2.0.nupkg.sha512",
     "C:\\Users\\Tmanv\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Tmanv\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.11\\microsoft.aspnetcore.openapi.10.0.11.nupkg.sha512",
     "C:\\Users\\Tmanv\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\8.0.0\\microsoft.bcl.asyncinterfaces.8.0.0.nupkg.sha512",
@@ -42,6 +43,7 @@
     "C:\\Users\\Tmanv\\.nuget\\packages\\microsoft.visualstudio.solutionpersistence\\1.0.52\\microsoft.visualstudio.solutionpersistence.1.0.52.nupkg.sha512",
     "C:\\Users\\Tmanv\\.nuget\\packages\\mono.texttemplating\\3.0.0\\mono.texttemplating.3.0.0.nupkg.sha512",
     "C:\\Users\\Tmanv\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512",
+    "C:\\Users\\Tmanv\\.nuget\\packages\\scalar.aspnetcore\\2.18.0\\scalar.aspnetcore.2.18.0.nupkg.sha512",
     "C:\\Users\\Tmanv\\.nuget\\packages\\swashbuckle.aspnetcore\\10.3.0\\swashbuckle.aspnetcore.10.3.0.nupkg.sha512",
     "C:\\Users\\Tmanv\\.nuget\\packages\\swashbuckle.aspnetcore.annotations\\10.3.0\\swashbuckle.aspnetcore.annotations.10.3.0.nupkg.sha512",
     "C:\\Users\\Tmanv\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\10.3.0\\swashbuckle.aspnetcore.swagger.10.3.0.nupkg.sha512",

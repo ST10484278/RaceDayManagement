@@ -475,3 +475,5 @@ C:\Users\Tmanv\OneDrive\Desktop\Assignments\RaceDayManagement\RaceDay.Api.Tests\
 C:\Users\Tmanv\OneDrive\Desktop\Assignments\RaceDayManagement\RaceDay.Api.Tests\obj\Debug\net10.0\RaceDay.Api.Tests.pdb
 C:\Users\Tmanv\OneDrive\Desktop\Assignments\RaceDayManagement\RaceDay.Api.Tests\obj\Debug\net10.0\RaceDay.Api.Tests.genruntimeconfig.cache
 C:\Users\Tmanv\OneDrive\Desktop\Assignments\RaceDayManagement\RaceDay.Api.Tests\obj\Debug\net10.0\ref\RaceDay.Api.Tests.dll
+C:\Users\Tmanv\OneDrive\Desktop\Assignments\RaceDayManagement\RaceDay.Api.Tests\bin\Debug\net10.0\BCrypt-Net-Next.dll
+C:\Users\Tmanv\OneDrive\Desktop\Assignments\RaceDayManagement\RaceDay.Api.Tests\bin\Debug\net10.0\Scalar.AspNetCore.dll
