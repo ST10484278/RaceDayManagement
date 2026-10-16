@@ -1,0 +1,16 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "RaceDay.Api | v1",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:7108"
+    },
+    {
+      "url": "http://localhost:5014"
+    }
+  ],
+  "paths": { }
+}
