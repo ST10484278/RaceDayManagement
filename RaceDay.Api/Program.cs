@@ -1,42 +1,42 @@
-using Microsoft.EntityFrameworkCore;
 using RaceDay.Api.Data;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
-namespace RaceDay.Api
+var builder = WebApplication.CreateBuilder(args);
+
+// Add DbContext
+builder.Services.AddDbContext<RaceDayDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddControllers();
+
+// Add OpenAPI / Swagger services
+builder.Services.AddOpenApi(options =>
 {
-    public class Program
+    options.AddDocumentTransformer((document, context, cancellationToken) =>
     {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+        document.Info.Title = "RaceDay API";
+        document.Info.Version = "v1";
+        document.Info.Description = "RESTful API for managing race events, categories, enrolments, and results.";
+        return Task.CompletedTask;
+    });
+});
 
-            // Add services to the container.
-            builder.Services.AddControllers();
+var app = builder.Build();
 
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
-
-            // Register DbContext with SQL Server Connection String from appsettings.json
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            builder.Services.AddDbContext<RaceDayDbContext>(options =>
-                options.UseSqlServer(connectionString));
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.MapOpenApi(); // Serves /openapi/v1.json
-                app.MapScalarApiReference(); // Serves interactive Scalar UI at /scalar/v1
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-            app.MapControllers();
-
-            app.Run();
-        }
-    }
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+    app.MapScalarApiReference(options =>
+    {
+        options.Title = "RaceDay API Reference";
+        options.Theme = ScalarTheme.Purple;
+        options.DefaultHttpClient = new(ScalarTarget.Http, ScalarClient.Http11);
+    });
 }
+
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
+
+app.Run();
