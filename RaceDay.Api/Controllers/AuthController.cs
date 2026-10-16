@@ -74,7 +74,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<AuthResponse>> Login([FromBody] LoginRequest request)
     {
-        // 1. Locate user by email
+        // 1. Locate user by email including their Role
         var user = await _context.Users
             .Include(u => u.Role)
             .FirstOrDefaultAsync(u => u.Email == request.Email);
@@ -84,20 +84,24 @@ public class AuthController : ControllerBase
             return Unauthorized("Invalid email or password.");
         }
 
-        // 2. Validate BCrypt hash
+        // 2. Validate BCrypt password hash
         bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
         if (!isPasswordValid)
         {
             return Unauthorized("Invalid email or password.");
         }
 
+        // 3. Extract RoleName (e.g., "Participant" or "Organiser")
+        string userRole = user.Role?.RoleName ?? "Participant";
+
+        // 4. Generate response carrying session identity (UserId & Role)
         var response = new AuthResponse(
-            Token: "dummy-jwt-token",
-            UserId: user.UserID.ToString(),
+            Token: $"session-token-user-{user.UserID}", // Token or session identifier
+            UserId: user.UserID.ToString(),             // e.g., "5"
             Email: user.Email,
             FirstName: user.FirstName,
             LastName: user.LastName,
-            Role: user.Role?.RoleName ?? "User"
+            Role: userRole                              // e.g., "Participant"
         );
 
         return Ok(response);
