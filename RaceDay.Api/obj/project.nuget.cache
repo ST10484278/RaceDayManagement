@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "Qrsf/RLgkHA=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Tmanv\\OneDrive\\Desktop\\Assignments\\RaceDayManagement\\RaceDay.Api\\RaceDay.Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Tmanv\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.11\\microsoft.aspnetcore.openapi.10.0.11.nupkg.sha512",
+    "C:\\Users\\Tmanv\\.nuget\\packages\\microsoft.openapi\\2.7.5\\microsoft.openapi.2.7.5.nupkg.sha512"
+  ],
+  "logs": []
+}
