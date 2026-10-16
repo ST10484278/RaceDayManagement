@@ -16,10 +16,15 @@ public class ProfileController : ControllerBase
         _context = context;
     }
 
-    // GET /api/profile/{userId}
-    [HttpGet("{userId}")]
-    public async Task<ActionResult<ProfileDto>> GetProfile(int userId)
+    // GET /api/profile/me - Retrieves current session user's profile
+    [HttpGet("me")]
+    public async Task<ActionResult<ProfileDto>> GetMyProfile([FromHeader(Name = "X-User-Id")] int userId)
     {
+        if (userId <= 0)
+        {
+            return BadRequest("Invalid session user identity.");
+        }
+
         var user = await _context.Users
             .Include(u => u.Role)
             .FirstOrDefaultAsync(u => u.UserID == userId);
@@ -40,10 +45,17 @@ public class ProfileController : ControllerBase
         return Ok(profile);
     }
 
-    // PUT /api/profile/{userId}
-    [HttpPut("{userId}")]
-    public async Task<ActionResult<ProfileDto>> UpdateProfile(int userId, [FromBody] UpdateProfileRequest request)
+    // PUT /api/profile/me - Updates current session user's profile only
+    [HttpPut("me")]
+    public async Task<ActionResult<ProfileDto>> UpdateMyProfile(
+        [FromBody] UpdateProfileRequest request,
+        [FromHeader(Name = "X-User-Id")] int userId)
     {
+        if (userId <= 0)
+        {
+            return BadRequest("Invalid session user identity.");
+        }
+
         var user = await _context.Users
             .Include(u => u.Role)
             .FirstOrDefaultAsync(u => u.UserID == userId);
@@ -53,6 +65,7 @@ public class ProfileController : ControllerBase
             return NotFound("User profile not found.");
         }
 
+        // Apply profile updates to logged-in user account
         user.FirstName = request.FirstName;
         user.LastName = request.LastName;
         user.Email = request.Email;
