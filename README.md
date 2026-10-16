@@ -27,3 +27,25 @@ Participants represent the athletes and runners using the platform to register f
 * **Event Entry:** Register for specific event categories and receive unique race bib numbers.
 * **Personal Dashboard:** View active event enrolments, prepare using route/weather information, and access historic race performance metrics over time.
 
+## Part 2
+Part 2 delivers a fully functional, RESTful Web API backend built with ASP.NET Core and Entity Framework Core. It implements session-like header-based Role-Based Access Control (RBAC), database state management with SQL Server, input validation, comprehensive unit/integration testing with xUnit, OpenAPI documentation via Scalar, and an automated continuous integration pipeline using GitHub Actions.
+
+### Technologies Used
+* **Framework:** ASP.NET Core Web API (.NET 9)
+* **ORM & Database:** Entity Framework Core 9 with SQL Server
+* **Authentication:** Password Hashing (BCrypt.NET) & Session Identity Headers (`X-User-Role`, `X-User-Id`)
+* **Testing:** xUnit & `Microsoft.AspNetCore.Mvc.Testing`
+* **Documentation:** Scalar OpenAPI UI
+* **CI/CD:** GitHub Actions
+
+### Project Structure
+```text
+RaceDayManagement/
+├── .github/
+│   └── workflows/
+│       └── build-and-test.yml   # GitHub Actions CI/CD Pipeline
+├── docs/
+│   └── github-actions-green-build.png
+├── RaceDay.Api/                 # Core Web API Project (Controllers, Data Context, Models)
+├── RaceDay.Contracts/           # Shared DTOs and Data Transfer Objects
+└── RaceDay.Api.Tests/           # Automated Integration and Unit Tests (xUnit)
