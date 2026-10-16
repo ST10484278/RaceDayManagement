@@ -36,6 +36,8 @@ Part 2 delivers a fully functional, RESTful Web API backend built with ASP.NET C
 * **Authentication:** Password Hashing (BCrypt.NET) & Session Identity Headers (`X-User-Role`, `X-User-Id`)
 * **Testing:** xUnit & `Microsoft.AspNetCore.Mvc.Testing`
 * **Documentation:** Scalar OpenAPI UI
+### GitHub Actions Screenshot
+![GitHub Actions Green Build](./docs/Workflow_Snapshot.png)
 * **CI/CD:** GitHub Actions
 
 ### Project Structure
