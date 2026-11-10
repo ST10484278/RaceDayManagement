@@ -9,7 +9,7 @@
         public string Description { get; set; } = string.Empty;
         public DateTime EventDate { get; set; }
         public string Location { get; set; } = string.Empty;
-
+        public string? BannerImageUrl { get; set; }
         // Navigation properties
         public AppUser Organiser { get; set; } = null!;
         public ICollection<Category> Categories { get; set; } = new List<Category>();
