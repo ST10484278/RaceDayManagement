@@ -15,28 +15,41 @@ public class AuthController : Controller
     public IActionResult Register() => View();
 
     [HttpPost]
-    public async Task<IActionResult> Register(RegisterVm vm)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(RegisterVm model)
     {
-        if (!ModelState.IsValid) return View(vm);
-
-        // Matches: RegisterRequest(string FirstName, string LastName, string Email, string Password, string Role)
-        var request = new RegisterRequest(
-            vm.FirstName,
-            vm.LastName,
-            vm.Email,
-            vm.Password,
-            vm.Role
-        );
-
-        var response = await _api.SendAsync(HttpMethod.Post, "api/auth/register", request);
-        if (!response.IsSuccessStatusCode)
+        if (!ModelState.IsValid)
         {
-            ModelState.AddModelError("", await response.Content.ReadAsStringAsync());
-            return View(vm);
+            return View(model);
         }
 
-        TempData["Success"] = "Registration successful. Please log in.";
-        return RedirectToAction(nameof(Login));
+        try
+        {
+            var response = await _api.SendAsync(HttpMethod.Post, "api/auth/register", model);
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Account registered successfully! Please log in.";
+                return RedirectToAction("Login");
+            }
+
+            // Convert non-success API response into friendly ModelState error
+            var errorContent = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError(string.Empty, !string.IsNullOrWhiteSpace(errorContent)
+                ? errorContent
+                : "Registration failed. Please verify your information and try again.");
+        }
+        catch (HttpRequestException)
+        {
+            // Intercept connection failures cleanly without leaking raw trace
+            TempData["ErrorMessage"] = "Unable to reach the RaceDay server. Please ensure the backend service is active.";
+        }
+        catch (Exception)
+        {
+            TempData["ErrorMessage"] = "An unexpected error occurred while processing your request. Please try again later.";
+        }
+
+        return View(model);
     }
 
     [HttpGet]
@@ -70,7 +83,7 @@ public class AuthController : Controller
         if (!string.IsNullOrWhiteSpace(apiCookie))
             HttpContext.Session.SetString("ApiSessionCookie", apiCookie);
 
-        // 2. Store user session info (auth.UserId is string so we use SetString)
+        // 2. Store user session info
         HttpContext.Session.SetString("UserId", auth.UserId);
         HttpContext.Session.SetString("Role", auth.Role);
         HttpContext.Session.SetString("DisplayName", auth.FirstName ?? auth.Email);

@@ -33,9 +33,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tmanv\\OneDrive\\Desktop\\Assignments\\RaceDayManagement\\RaceDay.Mvc\\RaceDay.Mvc..csproj",
-      "projectName": "RaceDay.Mvc.",
-      "projectPath": "C:\\Users\\Tmanv\\OneDrive\\Desktop\\Assignments\\RaceDayManagement\\RaceDay.Mvc\\RaceDay.Mvc..csproj",
+      "projectUniqueName": "C:\\Users\\Tmanv\\OneDrive\\Desktop\\Assignments\\RaceDayManagement\\RaceDay.Mvc\\RaceDay.Mvc.csproj",
+      "projectName": "RaceDay.Mvc",
+      "projectPath": "C:\\Users\\Tmanv\\OneDrive\\Desktop\\Assignments\\RaceDayManagement\\RaceDay.Mvc\\RaceDay.Mvc.csproj",
       "packagesPath": "C:\\Users\\Tmanv\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Tmanv\\OneDrive\\Desktop\\Assignments\\RaceDayManagement\\RaceDay.Mvc\\obj\\",
       "projectStyle": "PackageReference",

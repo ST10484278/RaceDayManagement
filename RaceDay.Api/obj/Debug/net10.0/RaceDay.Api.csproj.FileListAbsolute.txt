@@ -164,7 +164,6 @@ C:\Users\Tmanv\OneDrive\Desktop\Assignments\RaceDayManagement\RaceDay.Api\obj\De
 C:\Users\Tmanv\OneDrive\Desktop\Assignments\RaceDayManagement\RaceDay.Api\obj\Debug\net10.0\staticwebassets.development.json
 C:\Users\Tmanv\OneDrive\Desktop\Assignments\RaceDayManagement\RaceDay.Api\obj\Debug\net10.0\staticwebassets.build.endpoints.json
 C:\Users\Tmanv\OneDrive\Desktop\Assignments\RaceDayManagement\RaceDay.Api\obj\Debug\net10.0\swae.build.ex.cache
-C:\Users\Tmanv\OneDrive\Desktop\Assignments\RaceDayManagement\RaceDay.Api\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 C:\Users\Tmanv\OneDrive\Desktop\Assignments\RaceDayManagement\RaceDay.Api\obj\Debug\net10.0\RaceDay..67FF5970.Up2Date
 C:\Users\Tmanv\OneDrive\Desktop\Assignments\RaceDayManagement\RaceDay.Api\obj\Debug\net10.0\RaceDay.Api.dll
 C:\Users\Tmanv\OneDrive\Desktop\Assignments\RaceDayManagement\RaceDay.Api\obj\Debug\net10.0\refint\RaceDay.Api.dll
