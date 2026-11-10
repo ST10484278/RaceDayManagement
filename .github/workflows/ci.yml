@@ -17,13 +17,13 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '9.0.x'
+        dotnet-version: '8.0.x'
 
     - name: Restore packages
-      run: dotnet restore
+      run: dotnet restore RaceDay.sln
 
     - name: Build solution
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build RaceDay.sln --no-restore --configuration Release
 
     - name: Run unit tests
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test RaceDay.Api.Tests/RaceDay.Api.Tests.csproj --no-build --configuration Release --verbosity normal
