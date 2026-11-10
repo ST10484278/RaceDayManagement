@@ -1,15 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿@model RaceDay.Mvc.ViewModels.CaptureResultVm
 
-namespace RaceDay.Mvc.ViewModels;
-
-public class CaptureResultVm
-{
-[Required]
-public int EnrolmentId { get; set; }
-
-[Required]
-public TimeSpan FinishTime { get; set; }
-
-[Required, Range(1, 10000)]
-public int FinishingPosition { get; set; }
+@{
+    ViewData["Title"] = "Capture Result";
 }
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <h3 class="mb-3">Capture Result for Enrolment #@Model.EnrolmentId</h3>
+        <form asp-action="CaptureResult" method="post">
+            <input type="hidden" asp-for="EnrolmentId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="FinishTime" class="form-label">Finish Time (hh:mm:ss)</label>
+                <input asp-for="FinishTime" class="form-control" type="text" placeholder="01:25:30" />
+                <span asp-validation-for="FinishTime" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="FinishingPosition" class="form-label">Finishing Position (Rank)</label>
+                <input asp-for="FinishingPosition" class="form-control" type="number" />
+                <span asp-validation-for="FinishingPosition" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Save Result</button>
+        </form>
+    </div>
+</div>
