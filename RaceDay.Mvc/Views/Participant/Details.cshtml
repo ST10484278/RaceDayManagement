@@ -1,0 +1,43 @@
+﻿@model RaceDay.Mvc.ViewModels.EventDetailsVm
+
+@{
+    ViewData["Title"] = Model.Event.Title;
+}
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h2>@Model.Event.Title</h2>
+        <p class="text-muted">🗓️ <strong>Date:</strong> @Model.Event.Date.ToLongDateString() | 📍 <strong>Location:</strong> @Model.Event.Location</p>
+        <hr />
+        <p>@Model.Event.Description</p>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+        <h4 class="mb-0">Select Category & Enter Event</h4>
+    </div>
+    <div class="card-body">
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger">@TempData["Error"]</div>
+        }
+
+        <form asp-action="EnterEvent" method="post">
+            <input type="hidden" name="eventId" value="@Model.Event.Id" />
+
+            <div class="mb-3">
+                <label class="form-label">Available Categories:</label>
+                <select name="categoryId" class="form-select" required>
+                    <option value="">-- Choose Category --</option>
+                    @foreach (var cat in Model.Categories)
+                    {
+                        <option value="@cat.Id">@cat.Name (@cat.DistanceKm km)</option>
+                    }
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-lg">Enter Event</button>
+        </form>
+    </div>
+</div>

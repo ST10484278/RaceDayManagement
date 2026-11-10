@@ -1,0 +1,29 @@
+﻿@model List<RaceDay.Contracts.ResultDto>
+
+@{
+    ViewData["Title"] = "My Race Results";
+}
+
+<h2>My Race Results</h2>
+
+<table class="table table-striped mt-3">
+    <thead class="table-dark">
+        <tr>
+            <th>Result ID</th>
+            <th>Enrolment ID</th>
+            <th>Finish Time</th>
+            <th>Finishing Rank</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>#@item.Id</td>
+                <td>#@item.EnrolmentId</td>
+                <td><strong>@item.CompletionTime</strong></td>
+                <td><span class="badge bg-info text-dark">Rank #@item.Rank</span></td>
+            </tr>
+        }
+    </tbody>
+</table>
