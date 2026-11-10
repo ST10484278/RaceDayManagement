@@ -61,6 +61,11 @@ Part 2 delivers a fully functional, RESTful Web API backend built with ASP.NET C
    "ConnectionStrings": {
      "DefaultConnection": "Server=localhost;Database=RaceDayDb;Trusted_Connection=True;TrustServerCertificate=True;"
    }
+
+## GitHub Actions Screenshot
+
+![GitHub Actions Green Build](./docs/WorkFlow_Snapshot.png)
+
 ## 🏗️ Solution Architecture & Structure
 
 The repository is organized into a modular solution containing the backend REST API, shared contracts, automated test suites, and containerized MVC web frontend:
