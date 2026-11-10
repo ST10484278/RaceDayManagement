@@ -40,14 +40,39 @@ Part 2 delivers a fully functional, RESTful Web API backend built with ASP.NET C
 ![GitHub Actions Green Build](./docs/Workflow_Snapshot.png)
 * **CI/CD:** GitHub Actions
 
-### Project Structure
+## Part 3 - MVC Web Application
+- Implemented role-aware MVC web application with Bootstrap component styling.
+- Containerized `RaceDay.Mvc` using Docker.
+- Managed cross-boundary container-to-host API communication.
+- Applied reusable status CSS badges (`.status-confirmed`, `.status-pending`, `.status-cancelled`).
+- Built user-friendly error handling in `AuthController.cs` to map API failures to `ModelState` and `TempData` alerts instead of raw exception stack traces.
+
+## Prerequisites
+- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [SQL Server & SSMS](https://www.microsoft.com/sql-server/)
+- [Git](https://git-scm.com/)
+
+## Database Setup
+1. Open SQL Server Management Studio (SSMS) and connect to your local database instance.
+2. Run the SQL migration scripts in the `/Database` folder to create tables and seed default roles.
+3. Configure your local connection string in `RaceDay.Api/appsettings.json`:
+   ```json
+   "ConnectionStrings": {
+     "DefaultConnection": "Server=localhost;Database=RaceDayDb;Trusted_Connection=True;TrustServerCertificate=True;"
+   }
+## 🏗️ Solution Architecture & Structure
+
+The repository is organized into a modular solution containing the backend REST API, shared contracts, automated test suites, and containerized MVC web frontend:
+
 ```text
 RaceDayManagement/
 ├── .github/
 │   └── workflows/
-│       └── build-and-test.yml   # GitHub Actions CI/CD Pipeline
+│       └── ci.yml               # GitHub Actions CI/CD Pipeline
 ├── docs/
 │   └── github-actions-green-build.png
-├── RaceDay.Api/                 # Core Web API Project (Controllers, Data Context, Models)
-├── RaceDay.Contracts/           # Shared DTOs and Data Transfer Objects
+├── RaceDay.Api/                 # ASP.NET Core Web API (Controllers, Data Context, Database Services)
+├── RaceDay.Contracts/           # Shared DTOs and Data Transfer Objects (Dtos.cs)
+├── RaceDay.Mvc/                 # ASP.NET Core MVC Frontend (Controllers, Razor Views, Dockerfile)
 └── RaceDay.Api.Tests/           # Automated Integration and Unit Tests (xUnit)
