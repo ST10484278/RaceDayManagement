@@ -1,0 +1,45 @@
+﻿@model List<RaceDay.Contracts.CategoryDto>
+
+@{
+    ViewData["Title"] = "Manage Categories";
+}
+
+<h2>Event Categories</h2>
+
+<div class="card my-3">
+    <div class="card-body">
+        <h5>Add New Category</h5>
+        <form asp-action="CreateCategory" method="post" class="row g-2">
+            <input type="hidden" name="eventId" value="@ViewBag.EventId" />
+            <div class="col-md-5">
+                <input type="text" name="name" class="form-control" placeholder="Category Name (e.g. 10km Run)" required />
+            </div>
+            <div class="col-md-4">
+                <input type="number" step="0.1" name="distanceKm" class="form-control" placeholder="Distance (Km)" required />
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary w-100">Add Category</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Distance (Km)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cat in Model)
+        {
+            <tr>
+                <td>@cat.Id</td>
+                <td>@cat.Name</td>
+                <td>@cat.DistanceKm km</td>
+            </tr>
+        }
+    </tbody>
+</table>
