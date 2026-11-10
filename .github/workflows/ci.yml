@@ -20,10 +20,10 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restore packages
-      run: dotnet restore RaceDay.Api/RaceDay.Api.sln
+      run: dotnet restore RaceDay.Mvc/RaceDay.Mvc.csproj
 
-    - name: Build solution
-      run: dotnet build RaceDay.Api/RaceDay.Api.sln --no-restore --configuration Release
+    - name: Build project
+      run: dotnet build RaceDay.Mvc/RaceDay.Mvc.csproj --no-restore --configuration Release
 
     - name: Run unit tests
       run: dotnet test RaceDay.Api.Tests/RaceDay.Api.Tests.csproj --no-build --configuration Release --verbosity normal
