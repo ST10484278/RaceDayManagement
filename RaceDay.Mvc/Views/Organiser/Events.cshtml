@@ -1,26 +1,34 @@
-﻿@model RaceDay.Mvc.ViewModels.OrganiserDashboardVm
+﻿@model List<RaceDay.Contracts.EventDto>
 
 @{
-    ViewData["Title"] = "Organiser Dashboard";
+    ViewData["Title"] = "Manage Events";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Organiser Dashboard</h2>
-    <a asp-action="CreateEvent" class="btn btn-primary">+ Create New Event</a>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Event Management</h2>
+    <a asp-action="CreateEvent" class="btn btn-success">+ New Event</a>
 </div>
 
-<div class="row">
-    @foreach (var ev in Model.Events)
-    {
-        <div class="col-md-4 mb-3">
-            <div class="card shadow-sm border-start border-primary border-4">
-                <div class="card-body">
-                    <h5 class="card-title">@ev.Name</h5>
-                    <p class="card-text text-muted">🗓️ @ev.EventDate.ToShortDateString()</p>
-                    <p class="card-text">👥 Enrolments: <strong>@ev.EnrolmentCount</strong></p>
-                    <a asp-action="Categories" asp-route-eventId="@ev.EventId" class="btn btn-outline-secondary btn-sm">Categories</a>
-                </div>
-            </div>
-        </div>
-    }
-</div>
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><strong>@item.Title</strong></td>
+                <td>@item.Date.ToShortDateString()</td>
+                <td>@item.Location</td>
+                <td>
+                    <a asp-action="Categories" asp-route-eventId="@item.Id" class="btn btn-sm btn-info text-white">Categories</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
