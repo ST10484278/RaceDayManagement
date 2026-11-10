@@ -1,26 +1,42 @@
-﻿@model RaceDay.Mvc.ViewModels.OrganiserDashboardVm
+﻿@model List<RaceDay.Contracts.EventDto>
 
 @{
-    ViewData["Title"] = "Organiser Dashboard";
+    ViewData["Title"] = "Upcoming Events";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Organiser Dashboard</h2>
-    <a asp-action="CreateEvent" class="btn btn-primary">+ Create New Event</a>
-</div>
+<h2 class="mb-4">Upcoming Events</h2>
 
-<div class="row">
-    @foreach (var ev in Model.Events)
-    {
-        <div class="col-md-4 mb-3">
-            <div class="card shadow-sm border-start border-primary border-4">
-                <div class="card-body">
-                    <h5 class="card-title">@ev.Name</h5>
-                    <p class="card-text text-muted">🗓️ @ev.EventDate.ToShortDateString()</p>
-                    <p class="card-text">👥 Enrolments: <strong>@ev.EnrolmentCount</strong></p>
-                    <a asp-action="Categories" asp-route-eventId="@ev.EventId" class="btn btn-outline-secondary btn-sm">Categories</a>
+<form method="get" asp-action="Index" class="row g-3 mb-4">
+    <div class="col-md-8">
+        <input type="text" name="search" value="@ViewBag.CurrentSearch" class="form-control" placeholder="Search by title or location..." />
+    </div>
+    <div class="col-md-4 d-flex">
+        <button type="submit" class="btn btn-primary me-2 flex-grow-1">Filter</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Clear</a>
+    </div>
+</form>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No upcoming events found matching your criteria.</div>
+}
+else
+{
+    <div class="row">
+        @foreach (var ev in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@ev.Title</h5>
+                        <p class="card-text text-muted">🗓️ @ev.Date.ToShortDateString() | 📍 @ev.Location</p>
+                        <p class="card-text">@ev.Description</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0">
+                        <a asp-action="Details" asp-route-id="@ev.Id" class="btn btn-primary w-100">View Details & Register</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+}
