@@ -31,14 +31,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Tmanv/OneDrive/Desktop/Assignments/RaceDayManagement/RaceDay.Mvc/Views/Enrolments.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW5yb2xtZW50cy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Tmanv/OneDrive/Desktop/Assignments/RaceDayManagement/RaceDay.Mvc/Views/Events.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Tmanv/OneDrive/Desktop/Assignments/RaceDayManagement/RaceDay.Mvc/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -47,8 +39,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Tmanv/OneDrive/Desktop/Assignments/RaceDayManagement/RaceDay.Mvc/Views/Organiser/CaptureResult.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pc2VyXENhcHR1cmVSZXN1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Tmanv/OneDrive/Desktop/Assignments/RaceDayManagement/RaceDay.Mvc/Views/Organiser/CreateEvent.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pc2VyXENyZWF0ZUV2ZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Tmanv/OneDrive/Desktop/Assignments/RaceDayManagement/RaceDay.Mvc/Views/Organiser/Enrolments.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pc2VyXEVucm9sbWVudHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Tmanv/OneDrive/Desktop/Assignments/RaceDayManagement/RaceDay.Mvc/Views/Organiser/Events.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pc2VyXEV2ZW50cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Tmanv/OneDrive/Desktop/Assignments/RaceDayManagement/RaceDay.Mvc/Views/Organiser/Index.cshtml]
